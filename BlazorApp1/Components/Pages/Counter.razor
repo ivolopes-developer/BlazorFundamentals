@@ -11,11 +11,12 @@
 
 <div class="d-flex flex-column gap-2 mt-5">
 	<div class="d-flex flex-row gap-2">
-		<input type="text" @oninput="HandleInput" @onfocus="HandleFocus" @onblur="HandleBlur" />
+		<input type="text" @bind="input_text" @bind:event="onchange" @bind:after="RandomTask" @onfocus="HandleFocus" @onblur="HandleBlur" />
 		<p class="m-0">@(input_focus_text)</p>
 	</div>
 
 	<p>texto do input: @(string.IsNullOrWhiteSpace(input_text) ? "vazio" : input_text)</p>
+	<p>resultado da RandomTask: @random_task_text</p>
 </div>
 
 <div class="@(string.IsNullOrEmpty(div_text) ? "p-0" : "p-5")" style="border: 1px solid black" @onmouseover="HandleMouseOver" @onmouseleave="HandleMouseLeave">
@@ -27,37 +28,34 @@
 	private string input_text = "";
 	private string div_text = "";
 	private string input_focus_text = "";
+	private string random_task_text = "";
 
 	// add parameter to the counter componente
 	[Parameter]
 	public int IncrementAmount { get; set; } = 1;
 
-	private void IncrementCount()
-	{
+	private void IncrementCount() {
 		currentCount += IncrementAmount;
 	}
 
-	private void HandleInput(ChangeEventArgs args)
-	{
-		input_text = args.Value?.ToString() ?? "";
-	}
-
-	private void HandleMouseOver(MouseEventArgs args)
-	{
+	private void HandleMouseOver(MouseEventArgs args) {
 		div_text = $"Mouse over at ({args.ClientX}, {args.ClientY})";
 	}
-	private void HandleMouseLeave(MouseEventArgs args)
-	{
+	private void HandleMouseLeave(MouseEventArgs args) {
 		div_text = "";
 	}
 
-	private void HandleFocus(FocusEventArgs args)
-	{
+	private void HandleFocus(FocusEventArgs args) {
 		input_focus_text = "input focused";
 	}
 
-	private void HandleBlur(FocusEventArgs args)
-	{
+	private void HandleBlur(FocusEventArgs args) {
 		input_focus_text = "";
+	}
+
+	private async Task RandomTask() {
+		random_task_text = "Task running...";
+		await Task.Delay(2000);
+		random_task_text = "Task completed. :)";
 	}
 }
