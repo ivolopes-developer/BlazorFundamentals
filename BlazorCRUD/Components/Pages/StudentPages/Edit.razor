@@ -1,0 +1,118 @@
+﻿@page "/students/edit"
+@using Microsoft.EntityFrameworkCore
+@using BlazorCRUD.Models
+@inject IDbContextFactory<BlazorCRUD.Data.BlazorCRUDContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>Student</h2>
+<hr />
+@if (Student is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="Student" OnValidSubmit="UpdateStudent" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary role="alert"/>
+                <input type="hidden" name="Student.Id" value="@Student.Id" />
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <InputText id="name" @bind-Value="Student.Name" class="form-control" />
+                    <ValidationMessage For="() => Student.Name" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="age" class="form-label">Age:</label>
+                    <InputNumber id="age" @bind-Value="Student.Age" class="form-control" readonly />
+                    <ValidationMessage For="() => Student.Age" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="birthday" class="form-label">Birthday:</label>
+                    <InputDate id="birthday" @bind-Value="BirthdayLocal" class="form-control" />
+                    <ValidationMessage For="() => Student.Birthday" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/students">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private Student? Student { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        Student ??= await context.Student.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (Student is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // Local binding for the date input so we can update the age when the date changes.
+    private DateTime? BirthdayLocal
+    {
+        get => Student?.Birthday;
+        set
+        {
+            if (Student is null) return;
+            Student.Birthday = value;
+            Student.Age = value.HasValue ? CalculateAge(value.Value, DateTime.Today) : 0;
+        }
+    }
+
+    private static int CalculateAge(DateTime birthDate, DateTime today)
+    {
+        var age = today.Year - birthDate.Year;
+        if (birthDate > today.AddYears(-age)) age--;
+        return age;
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateStudent()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(Student!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!StudentExists(Student!.Id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/students");
+    }
+
+    private bool StudentExists(int id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.Student.Any(e => e.Id == id);
+    }
+}

@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\darko\\Documents\\GitHub\\BlazorFundamentals\\BlazorApp3\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0879B58A-555B-4A28-AEA6-14236BDDDA5F}|BlazorApp3.Client\\BlazorApp3.Client.csproj|c:\\users\\darko\\documents\\github\\blazorfundamentals\\blazorapp3\\blazorapp3.client\\pages\\counter.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0879B58A-555B-4A28-AEA6-14236BDDDA5F}|BlazorApp3.Client\\BlazorApp3.Client.csproj|solutionrelative:blazorapp3.client\\pages\\counter.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Counter.razor",
+              "DocumentMoniker": "C:\\Users\\darko\\Documents\\GitHub\\BlazorFundamentals\\BlazorApp3\\BlazorApp3.Client\\Pages\\Counter.razor",
+              "RelativeDocumentMoniker": "BlazorApp3.Client\\Pages\\Counter.razor",
+              "ToolTip": "C:\\Users\\darko\\Documents\\GitHub\\BlazorFundamentals\\BlazorApp3\\BlazorApp3.Client\\Pages\\Counter.razor",
+              "RelativeToolTip": "BlazorApp3.Client\\Pages\\Counter.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-09T00:34:47.493Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
